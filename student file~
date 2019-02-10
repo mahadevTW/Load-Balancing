@@ -1,0 +1,11 @@
+# cursor.execute('select *from student')
+    # # cursor.commit()
+    # data = cursor.fetchall()
+    # student_list =[]
+    # for d in data:
+    #    student_data = 'PRN no='+str(d[0])+' Seat no='+ str(d[1])+" name="+d[2]+" Mother name="+d[3]
+    #    student_list.append(student_data)
+    # return jsonify({'students': student_list})
+
+    # return render_template('result.html')
+
