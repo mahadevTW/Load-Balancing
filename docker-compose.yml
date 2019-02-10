@@ -1,0 +1,16 @@
+version: '3'
+services:
+
+    mysql:
+        image: mysql
+        container_name: db
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+        ports:
+            - "3306:3306"
+
+    web:
+        build: .
+        ports:
+            - "5000:5000"
+        container_name: flask_app

@@ -1,72 +1,80 @@
-from flask import Flask, render_template,request, jsonify
+from flask import Flask, render_template, request, jsonify
 import MySQLdb
+
 app = Flask(__name__)
-con = MySQLdb.connect('localhost', 'root', 'mutex', 'Student_Result')
+con = MySQLdb.connect('120.0.0.1', 'root', 'root', 'Student_Result')
 cursor = con.cursor()
+
 
 @app.route('/')
 def student():
     return render_template('result.html')
 
-@app.route('/result',methods = ['POST'])
+
+@app.route('/result', methods=['POST'])
 def result():
-   request_data = request.form
+    request_data = request.form
 
-   prn_no = request_data['prnNo']
-   con = MySQLdb.connect('localhost', 'root', 'mutex', 'Student_Result')
+    prn_no = request_data['prnNo']
+    con = MySQLdb.connect('localhost', 'root', 'root', 'Student_Result')
 
+    cur = con.cursor()
+    cur.execute(
+        "SELECT * FROM student INNER JOIN college ON student.college_code=college.college_code where prn_no=%s;",
+        [prn_no])
 
-   cur = con.cursor()
-   cur.execute("SELECT * FROM student INNER JOIN college ON student.college_code=college.college_code where prn_no=%s;", [prn_no])
-
-   rows = cur.fetchall()
-
-
-   data_list = []
-
-   for o in rows:
-      print o
-      data = {}
-      data['prnNo']=o[0]
-      data['seatNo']=o[1]
-      data['name']=o[2]
-      data['motherName']=o[3]
-      data['collegeCode'] = o[4]
-      data['collegeName'] = o[6]
-      data['collegeAdd'] = o[7]
-
-      data_list.append(data)
-   print data_list
+    rows = cur.fetchall()
+    print rows
 
 
-   cur.execute("select * from sub_marks as re RIGHT JOIN subject as s on re.subject_code=s.subject_code where prn_no=%s;",[prn_no])
-   row = cur.fetchall()
-   sub_list = []
-   for i in row:
-       print i
-       sub_data = {}
-       sub_data['subjectCode'] = i[5]
-       sub_data['subjectName'] = i[6]
-       sub_data['obtainedMarks'] = i[2]
-       sub_data['totalMarks'] = i[3]
-       sub_list.append(sub_data)
-       # print sub_list
+    if not rows:
+        return render_template('wrongPRN.html')
 
-   cur.execute("select * from result where prn_no=%s;", [prn_no])
+    print rows
 
-   res = cur.fetchall()
-   res_list=[]
-   for x in res:
-       print x
-       res_data={}
-       res_data['totalMarks']=x[2]
-       res_data['obtainedMarks']=x[3]
-       res_data['sem']=x[4]
-       res_list.append(res_data)
+    data_list = []
 
-   return render_template("result1.html", rows=data_list,row=sub_list,res=res_list)
+    for o in rows:
+        print o
+        data = {}
+        data['prnNo'] = o[0]
+        data['seatNo'] = o[1]
+        data['name'] = o[2]
+        data['motherName'] = o[3]
+        data['collegeCode'] = o[4]
+        data['collegeName'] = o[6]
+        data['collegeAdd'] = o[7]
+
+        data_list.append(data)
+    print data_list
+
+    cur.execute("select * from sub_marks as re RIGHT JOIN subject as s on re.subject_code=s.subject_code where prn_no=%s;",
+                [prn_no])
+    row = cur.fetchall()
+    sub_list = []
+    for i in row:
+        print i
+        sub_data = {}
+        sub_data['subjectCode'] = i[5]
+        sub_data['subjectName'] = i[6]
+        sub_data['obtainedMarks'] = i[2]
+        sub_data['totalMarks'] = i[3]
+        sub_list.append(sub_data)
+        # print sub_list
+
+    cur.execute("select * from result where prn_no=%s;", [prn_no])
+
+    res = cur.fetchall()
+    res_list = []
+    for x in res:
+        print x
+        res_data = {}
+        res_data['totalMarks'] = x[2]
+        res_data['obtainedMarks'] = x[3]
+        res_data['sem'] = x[4]
+        res_list.append(res_data)
+
+    return render_template("result1.html", rows=data_list, row=sub_list, res=res_list)
 
 if __name__ == '__main__':
-   app.run(debug = True)
-
-
+    app.run(debug=True)
