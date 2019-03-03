@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+    <head>
+        <center>
+            <h1 style="font-family:Impact;color:red;">Savitribai Phule Pune University</h1>
+            <h4>Statement of marks for: BE (2015 Pattern)</h4>
+            <h4>Branch:Computer</h4>
+        </center>
+    </head>
+
+    <body>
+        <table cellpadding="2" width="100%" bgcolor="99FFFF" align="center" cellspacing="2">
+
+        {% for row in rows %}
+            <tr>
+
+                <td>Seat No:    {{row["seatNo"]}}</td>
+
+                <td></td>
+
+            </tr>
+            <tr>
+
+                <td>Name:   <i>{{row["name"]}}</i></td>
+
+
+                <td>Prn No: {{row['prnNo']}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>College Code:   {{row['collegeCode']}}</td>
+
+                <td>College Name:   <i>{{row['collegeName']}} {{row['collegeAdd']}}</i></td>
+
+            </tr>
+        {% endfor %}
+
+        </table>
+
+
+        <table cellpadding="2" width="100%" bgcolor="#FFEFD5" align="center" cellspacing="2" border="2">
+
+            <tr>
+                <td><center><b>Subject Code</b></center></td>
+                <td><center><b>Subject Name</b></center></td>
+                <td><center><b>Total Marks</b></center></td>
+                <td><center><b>Obtained Marks</b></center></td>
+            </tr>
+
+              {% for i in row %}
+            <tr>
+                <td>
+                    <center>{{i['subjectCode']}}</center>
+                </td>
+                <td>
+                    <center>{{i['subjectName']}}</center>
+                </td>
+                <td>
+                    <center>{{i['totalMarks']}}</center>
+                </td>
+                <td>
+                    <center>{{i['obtainedMarks']}}</center>
+                </td>
+
+            </tr>
+            {% endfor %}
+
+           {% for x in res %}
+            <td><b>Sem:-           {{x['sem']}}</b></td>
+
+            </tr><br>
+
+            <tr>
+                <td><b>Total</b></td>
+                <td></td>
+                <td><b><center>{{x['totalMarks']}}</center></b></td>
+                <td><b><center>{{x['obtainedMarks']}}</center></b></td>
+
+            </tr>
+
+
+            {% endfor %}
+
+        </table>
+
+    <center>
+        <h3 style="font-family:Times New Roman;color:tomato;"><i><u>Congratulation You Are Pass..!!!</u></i></h3>
+
+    </center>
+    </body>
+</html>

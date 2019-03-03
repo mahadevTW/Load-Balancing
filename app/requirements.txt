@@ -1,5 +1,0 @@
-Flask
-mysqldb
-mysqlclient
-mysql-connect-python
-mysql-connector

@@ -1,8 +1,11 @@
+import time
+
 from flask import Flask, render_template, request, jsonify
 import MySQLdb
 
 app = Flask(__name__)
-con = MySQLdb.connect('120.0.0.1', 'root', 'root', 'Student_Result')
+time.sleep(5)
+con = MySQLdb.connect('mysql', 'root', 'tiger', 'Student_Result')
 cursor = con.cursor()
 
 
@@ -16,7 +19,6 @@ def result():
     request_data = request.form
 
     prn_no = request_data['prnNo']
-    con = MySQLdb.connect('localhost', 'root', 'root', 'Student_Result')
 
     cur = con.cursor()
     cur.execute(
@@ -77,4 +79,4 @@ def result():
     return render_template("result1.html", rows=data_list, row=sub_list, res=res_list)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)

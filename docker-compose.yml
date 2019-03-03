@@ -1,17 +1,21 @@
-version: "2"
-services:
-    app:
-        build: ./app
-        links:
-            - db
-        ports:
-            - "5000:5000"
+web:
+    build: .
+    command: python app/result.py
+    links:
+        - mysql
+    ports:
+        - "5000:5000"
+    volumes:
+        - .:/code
+    hostname: myappserver
 
-    db:
-        image: mysql:5.7
-        ports:
-            - "32000:3306"
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-        volumes:
-            - ./db:/docker-entrypoint-initdb.d/:ro
+mysql:
+    hostname: mysqlserver
+    image: orchardup/mysql
+    environment:
+        MYSQL_DATABASE: Student_Result
+        MYSQL_ROOT_PASSWORD: tiger
+#        MYSQL_ROOT_HOST: 0.0.0.0
+
+#    volumes:
+#        - ./db:/docker-entrypoint-initdb.d/:ro
