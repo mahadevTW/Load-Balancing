@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import MySQLdb
 
 app = Flask(__name__)
-con = MySQLdb.connect('localhost', 'root', 'root', 'Student_Result')
+con = MySQLdb.connect('mysql', 'root', 'root', 'Student_Result')
 cursor = con.cursor()
 
 
@@ -16,7 +16,6 @@ def result():
     request_data = request.form
 
     prn_no = request_data['prnNo']
-    con = MySQLdb.connect('localhost', 'root', 'root', 'Student_Result')
 
     cur = con.cursor()
 
