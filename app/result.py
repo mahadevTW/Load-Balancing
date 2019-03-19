@@ -6,7 +6,7 @@ from dataPopulation.populate_script import migrate
 
 time.sleep(5)
 app = Flask(__name__)
-con = MySQLdb.connect('mysql', 'root', 'tiger', 'Student_Result')
+con = MySQLdb.connect('mysql', 'root', 'root', 'Student_Result')
 cursor = con.cursor()
 
 migrate(con)
