@@ -3,15 +3,15 @@ import csv
 import MySQLdb
 
 # csv file name
-filename = "data1.csv"
+filename = "app/dataPopulation/data.csv"
 
 fields = []
 rows = []
-con = MySQLdb.connect('localhost', 'root', 'root', 'Student_Result')
+# con = MySQLdb.connect('localhost', 'root', 'tiger', 'Student_Result')
 
 
-def create_tables():
-    drop_tables()
+def create_tables(con):
+    drop_tables(con)
     student = "create table if not exists student (prnNo int(20) primary key, seatNo int(20), name varchar(30), motherName varchar(30)," \
               "collegeCode int(20) )"
     college = "create table if not exists college(collegeCode int(20) primary key, collegeName varchar(30), address varchar(30))"
@@ -42,7 +42,7 @@ def create_tables():
 tables = ["college", "result", "result_subMarks", "student", "subMarks", "subject"]
 
 
-def truncate_table():
+def truncate_table(con):
     print "Truncating tables"
     cursor = con.cursor()
     cursor.execute('SET FOREIGN_KEY_CHECKS = 0')
@@ -54,7 +54,7 @@ def truncate_table():
     print "Truncating tables done!!"
 
 
-def drop_tables():
+def drop_tables(con):
     print "Drop tables"
     cursor = con.cursor()
     cursor.execute('SET FOREIGN_KEY_CHECKS = 0')
@@ -65,7 +65,7 @@ def drop_tables():
     print "Truncating tables done!!"
 
 
-def populate_subjects():
+def populate_subjects(con):
     sub_name = [{"name": "ML", "code": 10}, {"name": "ICS", "code": 20},
                 {"name": "COMPILER", "code": 30}, {"name": "BD", "code": 40}]
     cursor = con.cursor()
@@ -75,7 +75,7 @@ def populate_subjects():
     con.commit()
     print "Subject populated !!"
 
-def populate_college():
+def populate_college(con):
     college= [{"name": "JSPM ICOR", "code": 1, "address": "Wagholi"},{"name": "JSPM BSICOR", "code": 2, "address": "Wagholi"}]
     cursor = con.cursor()
     for s in college:
@@ -84,7 +84,7 @@ def populate_college():
     con.commit()
     print "College populated !!"
 
-def populate_data():
+def populate_data(con):
     cursor = con.cursor()
 
     # reading csv file
@@ -95,9 +95,9 @@ def populate_data():
         # extracting field names through first row
         fields = csvreader.next()
         id = 10000
-        truncate_table()
-        populate_subjects()
-        populate_college()
+        truncate_table(con)
+        populate_subjects(con)
+        populate_college(con)
         for row in csvreader:
             subject_data = row[:19]
             id = id + 1
@@ -215,9 +215,12 @@ def populate_data():
         # print("Total no. of rows: %d" % (csvreader.line_num))
     cursor.close()
 
+def migrate(con):
+    drop_tables(con)
+    # truncate_table()
+
+    create_tables(con)
+    populate_data(con)
 
 if __name__ == '__main__':
-    # drop_tables()
-    # truncate_table()
-    # create_tables()
-    populate_data()
+    migrate(con)
