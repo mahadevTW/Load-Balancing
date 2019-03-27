@@ -3,7 +3,7 @@ import csv
 import MySQLdb
 
 # csv file name
-filename = "app/dataPopulation/data.csv"
+filename = "dataPopulation/data.csv"
 
 fields = []
 rows = []

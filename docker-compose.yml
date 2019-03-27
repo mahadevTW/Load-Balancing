@@ -1,21 +1,73 @@
-web:
-    build: .
-    command: python app/result.py
-    links:
+version: '3.2'
+services:
+  backend1:
+      build: ./app
+      tty: true
+      links:
         - mysql
-    ports:
-        - "5000:5000"
-    volumes:
-        - .:/code
-    hostname: myappserver
+#      deploy:
+#        resources:
+#          limits:
+#            cpus: '0.50'
+#            memory: 20M
+#      volumes:
+#        - './backend/src:/backend-dir-inside-container'
 
-mysql:
-    hostname: mysqlserver
-    image: orchardup/mysql
-    environment:
-        MYSQL_DATABASE: Student_Result
-        MYSQL_ROOT_PASSWORD: tiger
-#        MYSQL_ROOT_HOST: 0.0.0.0
+  backend2:
+      build: ./app
+      tty: true
+#      links:
+#        - mysql
+#      deploy:
+#        resources:
+#          limits:
+#            cpus: '0.50'
+#            memory: 20M
 
-#    volumes:
-#        - ./db:/docker-entrypoint-initdb.d/:ro
+#      volumes:
+#        - './backend/src:/backend-dir-inside-container'
+
+  backend3:
+      build: ./app
+      tty: true
+#      links:
+#        - mysql
+#      deploy:
+#        resources:
+#          limits:
+#            cpus: '0.50'
+#            memory: 20M
+
+  #      volumes:
+#        - './backend/src:/backend-dir-inside-container'
+  backend4:
+        build: ./app
+        tty: true
+  #      links:
+  #        - mysql
+  #      deploy:
+  #        resources:
+  #          limits:
+  #            cpus: '0.50'
+  #            memory: 20M
+
+    #      volumes:
+  #        - './backend/src:/backend-dir-inside-container'
+
+  loadbalancer:
+      build: ./proxy
+      tty: true
+      links:
+          - backend1
+          - backend2
+          - backend3
+      ports:
+          - '5000:5000'
+  mysql:
+      hostname: mysqlserver
+      image: orchardup/mysql
+      environment:
+          MYSQL_DATABASE: Student_Result
+          MYSQL_ROOT_PASSWORD: tiger
+volumes:
+  backend:

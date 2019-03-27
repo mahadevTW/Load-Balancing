@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+import sys
+print(sys.argv)
 import time
 from flask import Flask, render_template, request
 import MySQLdb
@@ -6,7 +9,7 @@ from dataPopulation.populate_script import migrate
 
 time.sleep(5)
 app = Flask(__name__)
-con = MySQLdb.connect('mysql', 'root', 'root', 'Student_Result')
+con = MySQLdb.connect('mysql', 'root', 'tiger', 'Student_Result')
 cursor = con.cursor()
 
 migrate(con)
@@ -83,5 +86,5 @@ def result():
     return render_template("result1.html", rows=data_list, row=sub_list, res=res_list)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000,debug=True)
+    app.run(host='0.0.0.0', port=8080,debug=True)
 
