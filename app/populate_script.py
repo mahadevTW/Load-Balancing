@@ -1,12 +1,13 @@
 # importing csv module
 import csv
 import MySQLdb
-
+import time
 # csv file name
 filename = "dataPopulation/data.csv"
 
 fields = []
 rows = []
+time.sleep(5)
 con = MySQLdb.connect('mysql', 'root', 'root', 'Student_Result')
 
 
