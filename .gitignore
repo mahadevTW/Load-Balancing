@@ -25,7 +25,6 @@ logs/
 *.egg-info/
 .installed.cfg
 *.egg
-
 #Tags
 tags
 
