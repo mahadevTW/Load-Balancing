@@ -7,7 +7,6 @@ filename = "dataPopulation/data.csv"
 
 fields = []
 rows = []
-time.sleep(5)
 con = MySQLdb.connect('mysql', 'root', 'root', 'Student_Result')
 
 
@@ -226,9 +225,8 @@ def populate_data(con):
     cursor.close()
 
 def migrate(con):
+    time.sleep(10)
     drop_tables(con)
-    # truncate_table()
-
     create_tables(con)
     populate_data(con)
 
