@@ -31,18 +31,18 @@ def result():
         [prn_no])
 
     rows = cur.fetchall()
-    # print rows
+    # print (rows)
 
 
     if not rows:
-        return render_template('wrongPRN.html')
+        return render_template('Wrong_prn.html')
 
-    # print rows
+    # print (rows)
 
     data_list = []
 
     for o in rows:
-        # print o
+        # print (o)
         data = {}
         data['prnNo'] = o[0]
         data['seatNo'] = o[1]
@@ -53,7 +53,7 @@ def result():
         data['collegeAdd'] = o[7]
 
         data_list.append(data)
-    print data_list
+    print (data_list)
 
     cur.execute("select * from subMarks as re RIGHT JOIN subject as s on re.subCode=s.subCode where prnNo=%s;",
                 [prn_no])
@@ -62,21 +62,21 @@ def result():
     row = cur.fetchall()
     sub_list = []
     for i in row:
-        # print i
+        # print (i)
         sub_data = {}
         sub_data['subjectCode'] = i[5]
         sub_data['subjectName'] = i[6]
         sub_data['obtainedMarks'] = i[3]
         sub_data['totalMarks'] = i[4]
         sub_list.append(sub_data)
-        # print sub_list
+        # print (sub_list)
 
     cur.execute("select * from result where prnNo=%s;", [prn_no])
 
     res = cur.fetchall()
     res_list = []
     for x in res:
-        # print x
+        # print (x)
         res_data = {}
         res_data['totalMarks'] = x[3]
         res_data['obtainedMarks'] = x[2]

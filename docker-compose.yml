@@ -6,7 +6,6 @@ services:
       depends_on:
          - mysql
       command : python populate_script.py
-      command : python result.py
 #        resources:
 #          limits:
 #            cpus: '0.50'
